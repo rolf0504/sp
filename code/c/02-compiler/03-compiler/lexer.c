@@ -27,6 +27,7 @@ char *scan() {
     type = Id;
   } else { // 單一字元
     p++;
+    if(*p == '=') p++;
     type = Char;
   }
   int len = p-start;

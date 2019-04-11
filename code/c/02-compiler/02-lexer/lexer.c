@@ -4,6 +4,8 @@
 
 #define TMAX 10000000
 #define SMAX 100000
+#define isDigit(ch) ((ch) >= '0' && (ch) <='9')
+#define isAlpha(ch) (((ch) >= 'a' && (ch) <='z') || ((ch) >= 'A' && (ch) <= 'Z'))
 
 enum { Id, Int, Keyword, Literal, Char };
 
@@ -14,9 +16,12 @@ char strTable[TMAX], *strTableEnd=strTable;
 char *tokens[TMAX], tokenTop=0;
 int types[TMAX];
 
-#define isDigit(ch) ((ch) >= '0' && (ch) <='9')
-
-#define isAlpha(ch) (((ch) >= 'a' && (ch) <='z') || ((ch) >= 'A' && (ch) <= 'Z'))
+int main(int argc, char * argv[]) {
+  readText(argv[1], code, sizeof(code));
+  puts(code);
+  lex(code);
+  dump(tokens, tokenTop);
+}
 
 int readText(char *fileName, char *text, int size) {
   FILE *file = fopen(fileName, "r");
@@ -24,6 +29,14 @@ int readText(char *fileName, char *text, int size) {
   text[len] = '\0';
   fclose(file);
   return len;
+}
+
+void lex(char *fileName) {
+  char *p = code;
+  while (1) {
+    p = next(p);
+    if (p == NULL) break;
+  }
 }
 
 char *next(char *p) {
@@ -58,24 +71,8 @@ char *next(char *p) {
   return p;
 }
 
-void lex(char *fileName) {
-  char *p = code;
-  while (1) {
-    p = next(p);
-    if (p == NULL) break;
-  }
-}
-
 void dump(char *strTable[], int top) {
   for (int i=0; i<top; i++) {
     printf("%d:%s\n", i, strTable[i]);
   }
 }
-
-int main(int argc, char * argv[]) {
-  readText(argv[1], code, sizeof(code));
-  puts(code);
-  lex(code);
-  dump(tokens, tokenTop);
-}
-

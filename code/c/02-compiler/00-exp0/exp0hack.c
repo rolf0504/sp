@@ -6,9 +6,6 @@
 int tokenIdx = 0;
 char *tokens;
 
-int E();
-int F();
-
 void error(char *msg) {
   printf("%s", msg);
   assert(0);
